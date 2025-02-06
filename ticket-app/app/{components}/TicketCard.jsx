@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import DeleteBlock from './DeleteBlock';
 import PriorityDisplay from './PriorityDisplay';
 import ProgressDisplay from './ProgressDisplay';
@@ -12,11 +13,25 @@ const TicketCard = () => {
           <DeleteBlock />
         </div>
       </div>
-      <h4>Ticket Title</h4>
-      <hr className='h-px border-0 bg-gray-500 mb-2' />
-      <p className='whitespace-pre-wrap'>This is ticket description show in whitespace pre wrap</p>
-      <ProgressDisplay />
-      <StatusDisplay />
+      <Link href="/" style={ { display: "contents" } }>
+        <h4>Ticket Title</h4>
+        <hr className='h-px border-0 bg-gray-500 mb-2' />
+        <p className='whitespace-pre-wrap'>This is ticket description show in whitespace pre wrap</p>
+
+        {/* this flex-grow will make all card the same size..? */ }
+        <div className="flex-grow"></div>
+
+
+        <div className="flex mt-2">
+          <div className="flex flex-col">
+            <p className="text-xs  my-1"> createdDateTime </p>
+            <ProgressDisplay />
+          </div>
+          <div className="ml-auto  flex items-end">
+            <StatusDisplay />
+          </div>
+        </div>
+      </Link>
     </div>
   );
 };
