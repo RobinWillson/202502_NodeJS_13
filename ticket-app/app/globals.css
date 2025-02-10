@@ -1,3 +1,7 @@
+/**
+  * 以下 @apply 指令是適用於 Tailwind CSS 的語法,
+  */
+
 @import "tailwindcss";
 
 html,
@@ -46,7 +50,7 @@ body {
   input,
   select,
   textarea {
-    @apply m-1 rounded  bg-blue-50 p-1;
+    @apply m-1 rounded  bg-blue-50 p-1 border-1 border-blue-300;
   }
 }
 
