@@ -20,6 +20,7 @@ const TicketForm = ({ ticket }) => {
     startingTicketData = ticket;
     // startingTicketData._id = "";
   }
+  const [formData, setFormData] = useState(startingTicketData);
   const handelChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -60,7 +61,6 @@ const TicketForm = ({ ticket }) => {
     router.refresh();
     router.push("/");
   };
-  const [formData, setFormData] = useState(startingTicketData);
 
   return (
     <div className='flex justify-center'>
