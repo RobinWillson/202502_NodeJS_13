@@ -3,9 +3,12 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 useRouter;
 
-const TicketForm = () => {
+const TicketForm = ({ ticket }) => {
+  console.log("TicketForm ticket : ", ticket);
   const router = useRouter();
-  const startingTicketData = {
+  const EDITMODE = ticket._id === "new" ? false : true;
+  console.log("EDITMODE", EDITMODE);
+  let startingTicketData = {
     title: "",
     description: "",
     priority: 1,
@@ -13,6 +16,10 @@ const TicketForm = () => {
     status: "not started",
     category: "hardware issue",
   };
+  if (EDITMODE) {
+    startingTicketData = ticket;
+    // startingTicketData._id = "";
+  }
   const handelChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -22,16 +29,34 @@ const TicketForm = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("/api/Tickets", {
-      method: "POST",
-      body: JSON.stringify({ formData }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (res.ok) {
-      throw new Error("Error creating ticket Form");
+    console.log("handleSubmit");
+    console.log("formData", formData);
+    if (EDITMODE) {
+      const res = await fetch(`/api/Tickets/${ticket._id}`, {
+        method: "PUT",
+        body: JSON.stringify({ formData }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!res.ok) {
+        throw new Error("Error update ticket Form");
+      }
+    } else {
+      console.log("body", JSON.stringify({ formData }));
+      const res = await fetch("/api/Tickets", {
+        method: "POST",
+        body: JSON.stringify({ formData }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!res.ok) {
+        throw new Error("Error creating ticket Form");
+      }
     }
+
+
     router.refresh();
     router.push("/");
   };
@@ -40,7 +65,7 @@ const TicketForm = () => {
   return (
     <div className='flex justify-center'>
       <form className='flex flex-col gap-1 w-1/2' method='post' onSubmit={ handleSubmit }>
-        <h3>Start Your Ticket</h3>
+        <h3>{ EDITMODE ? "Update Your Ticket" : "Start Your Ticket" }</h3>
         <label htmlFor="title">Title</label>
         <input
           id="title"
@@ -96,7 +121,8 @@ const TicketForm = () => {
         <label>Progress</label>
         <input type="range" id="progress" name="progress" min="0" max="100" className="mb-4 " value={ formData.progress } onChange={ handelChange } />
         {/* //------------------------------------- */ }
-        <button type='submit' className='btn' onClick={ handleSubmit }>CREATE TICKET</button>
+        <button type='submit' className='btn' onClick={ handleSubmit }>
+          { EDITMODE ? "UPDATE TICKET" : "CREATE TICKET" }</button>
       </form>
 
     </div>

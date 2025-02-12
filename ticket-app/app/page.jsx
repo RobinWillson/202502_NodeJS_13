@@ -1,4 +1,5 @@
 import TicketCard from './{components}/TicketCard';
+import testConnection from './test-mongodb-connection';
 
 const getTickets = async () => {
   try {
@@ -11,6 +12,8 @@ const getTickets = async () => {
   }
 };
 const DashBoard = async () => {
+  let connection = await testConnection();
+  console.log(connection);
   const { tickets } = await getTickets();
   const uniqueCategories = [...new Set(tickets?.map((ticket) => ticket.category))];
   return (
