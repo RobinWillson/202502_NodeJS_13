@@ -16,17 +16,18 @@ const roboto = Roboto({
 export default function RootLayout(props) {
   const { children } = props;
   return (
-    <>
-      <html lang="en">
-        <body style={ { margin: 0, padding: 0 } }>
-          <AppRouterCacheProvider options={ { enableCssLayer: true } }>
-            <Navbar />
-            <ThemeProvider theme={ theme }>
+    <ThemeProvider theme={ theme }>
+
+      <>
+        <html lang="en">
+          <body style={ { margin: 0, padding: 0 } }>
+            <AppRouterCacheProvider options={ { enableCssLayer: true } }>
+              <Navbar />
               { children }
-            </ThemeProvider>
-          </AppRouterCacheProvider>
-        </body >
-      </html>
-    </>
+            </AppRouterCacheProvider>
+          </body >
+        </html>
+      </>
+    </ThemeProvider>
   );
 }

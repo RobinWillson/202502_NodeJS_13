@@ -1,0 +1,9 @@
+.contain1 {
+  border: 1px solid red;
+  height: 100%;
+}
+
+.contain0 {
+  border: 1px solid blue;
+  height: 100%;
+}
