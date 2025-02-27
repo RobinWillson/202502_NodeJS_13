@@ -182,3 +182,36 @@ const PostCard = ({ post }) => {
 
 ### 1:29:00
 建立 Dialog 作為 Form 的輸入頁
+* `<TextField value={ "Title" } fullWidth />`
+* `const [toggleDialog, setToggleDialog] = useState(false)`
+* `<Dialog onClose={ () => setToggleDialog(false) } open={ toggleDialog } >`
+
+### 1:37:00
+將 Dialog 建立成 components
+```
+@ components > FormDialog.jsx
+const FormDialog = ({onClose, open}) => {
+  return (
+    <Dialog
+      onClose={ onClose }
+      open={ open }
+    >
+    ...
+  )}
+```
+```
+@ page.jsx
+<FormDialog
+  onClose={ () => setToggleDialog(false) }
+  open={ toggleDialog }
+/>
+```
+
+### 1:40:00
+- 用Formik & Yup 來處理表單
+- 用react要寫很多state,
+  Formik 用來簡化 state 語法
+  Yup 用來做資料驗証
+- npm i formik
+- npm i yup
+- 

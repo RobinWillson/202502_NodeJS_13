@@ -1,50 +1,68 @@
 "use client";
-import { Box, AppBar, Typography, List, ListItemButton, Container, Grid2, Button, colors, Paper, Dialog } from "@mui/material";
-import styles from "./page.module.css";
+import { Box, AppBar, Typography, List, ListItemButton, Container, Grid2, Button, colors, Paper, Dialog, TextField } from "@mui/material";
 import PostList from "./components/PostList";
+import { useState } from "react";
+import FormDialog from "./components/FormDialog";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
-
-
+const validationSchema = yup.object({
+  title: yup.string().required("Title is required"),
+  body: yup.string().required("Body is required")
+});
+const POST = [
+  {
+    id: 1, title: "Title 1",
+    body: "Content 1",
+    createAt: "2021-10-01"
+  },
+  {
+    id: 2, title: "Title 2",
+    body: "Content 2",
+    createAt: "2021-10-01"
+  },
+  {
+    id: 3, title: "Title 3",
+    body: "Content 3",
+    createAt: "2021-10-01"
+  },
+  {
+    id: 4, title: "Title 4",
+    body: "Content 4",
+    createAt: "2021-10-01"
+  },
+  {
+    id: 5, title: "Title 5",
+    body: "Content 5",
+    createAt: "2021-10-01"
+  },
+  {
+    id: 6, title: "Title 6",
+    body: "Content 6",
+    createAt: "2021-10-01"
+  },
+  {
+    id: 7, title: "Title 7",
+    body: "Content 7",
+    createAt: "2021-10-01"
+  },
+];
 
 
 const Home = () => {
-  const POST = [
-    {
-      id: 1, title: "Title 1",
-      body: "Content 1",
-      createAt: "2021-10-01"
+  const [toggleDialog, setToggleDialog] = useState(false);
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      body: "",
+      createAt: new Date().toISOString()
     },
-    {
-      id: 2, title: "Title 2",
-      body: "Content 2",
-      createAt: "2021-10-01"
-    },
-    {
-      id: 3, title: "Title 3",
-      body: "Content 3",
-      createAt: "2021-10-01"
-    },
-    {
-      id: 4, title: "Title 4",
-      body: "Content 4",
-      createAt: "2021-10-01"
-    },
-    {
-      id: 5, title: "Title 5",
-      body: "Content 5",
-      createAt: "2021-10-01"
-    },
-    {
-      id: 6, title: "Title 6",
-      body: "Content 6",
-      createAt: "2021-10-01"
-    },
-    {
-      id: 7, title: "Title 7",
-      body: "Content 7",
-      createAt: "2021-10-01"
-    },
-  ];
+    validationSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    }
+  });
+  //-----------------------------------------
   return (
     <Box sx={ (theme) => ({
       backgroundColor: theme.palette.grey[200],
@@ -73,6 +91,7 @@ const Home = () => {
               color="secondary"
               sx={ { bgcolor: "salmon " } }
               fullWidth
+              onClick={ () => setToggleDialog(true) }
             >Create New Post</Button>
           </Grid2>
 
@@ -82,16 +101,12 @@ const Home = () => {
 
         </Grid2>
       </Container>
+      <FormDialog
+        onClose={ () => setToggleDialog(false) }
+        open={ toggleDialog }
+        formik={ formik }
+      />
 
-      <Dialog open={ true } >
-        <Paper sx={ { p: 2, height: "50vh", width: "400px" } }>
-          <Typography variant="h6"
-            sx={ { textAlign: "center", mb: 1 } }>
-            Create a New Post
-          </Typography>
-          <Button variant="contained">Create</Button>
-        </Paper>
-      </Dialog>
     </Box >
   );
 };
