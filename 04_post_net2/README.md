@@ -214,4 +214,84 @@ const FormDialog = ({onClose, open}) => {
   Yup 用來做資料驗証
 - npm i formik
 - npm i yup
-- 
+```
+@ Homepage
+const validationSchema = yup.object({
+  title: yup.string().required("Title is required"),
+  body: yup.string().required("Body is required")
+});
+const formik = useFormik({
+  initialValues: {
+    title: "",
+    body: "",
+  },
+  validationSchema,
+  onSubmit: (values) => {
+    console.log(values);
+  }
+});
+<FormDialog
+  onClose={ () => setToggleDialog(false) }
+  open={ toggleDialog }
+  formik={ formik }
+/>
+```
+- [more detail refer to FormDialog.jsx](./app/components/FormDialog.jsx)
+
+
+### 2:00:00
+ * For NextJS, we get data from Server Side 
+ * // export async function getServerSideProps() { }
+ * // export async function getStaticProps() { }
+ * // export async function getStaticPaths() { }
+ * //--------------------------
+ * getServerSideProps(): Fetch data on each request, but not render to client side
+ * getStaticProps(): Fetch data at build time, create cached data, and render to client side
+ * getStaticPaths(): Generate dynamic routes, used with getStaticProps()
+ * 在這個範例裡, 我們只示範 getServerSideProps(), 我們需要每次都有新資料
+ * //--------------------------
+```
+export async function getServerSideProps() {
+  const posts = [
+    {
+      id: 1, title: "Title 1",
+      body: "Content 1",
+      createAt: "2021-10-01"
+    },
+    {
+      id: 2, title: "Title 2",
+      body: "Content 2",
+      createAt: "2021-10-01"
+    },
+  ];
+  return {
+    props: {
+      posts: posts
+    }
+  };
+}
+```
+ * 實際執行時, 上方的表逹式己經過時, 無法用於 NextJS@16
+
+### Server Side Fetching
+* 這裡展示簡單的資料展示
+* https://youtu.be/YQMSietiFm0?si=wW1geB57wP-mvrrU&t=571
+```
+@outside the HomePage
+async function getServerSideProps(){
+  const res=await fetch("https://....")
+  //const repo=await res.json
+  //return (props:{repo})
+  return res.json
+}
+@under the HomePage
+const repo = await getServerSideProps()
+<h1>{repo.name}{/h1}
+```
+* 但如果在 client site 有許多互動存在
+* https://youtu.be/YQMSietiFm0?si=BS5iBa5ybKIdQbRW&t=686
+* 這裡的作法和我們的 01_ticket-app 一樣
+* 我們要把 use client 的部分給分開來, 整個架構會大變動
+* 這裡的目標是去抓 database 的資料, 開始要自由發揮了
+
+### 
