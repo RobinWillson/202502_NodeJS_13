@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 export async function GET(req, res) {
   try {
     const svrPosts = await SvrPost.find();
-    console.log("svrPosts :", svrPosts); // Debugging log
     return NextResponse.json({ svrPosts }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
